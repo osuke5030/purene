@@ -75,39 +75,38 @@ def job():
             soup_purene=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("俺的","")
         if soup_a[:2]=="結果":
             soup_result=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("予想外れ","").replace("予想的中","")
-    if os.path.exists('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx'):
-        if soup_result=="":
-            params = {'status':"予想プレ値!!!\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_purene),'media_ids':[media_id]}
-            wb = openpyxl.load_workbook("price.xlsx")
-            ws = wb["Sheet1"]
-            for i in range(wb['Sheet1'].max_row):
-                if ws.cell(row=i+1,column=1).value==params["status"]:
-                    print("投稿済みです")
-                    break    
-                elif i==wb['Sheet1'].max_row-1:
-                    twitter.post(url_text, params = params)
-                    print("投稿しました")    
-                    ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                    wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
-            print("処理終了")
-            print("")
-        else:
-            soup_teika=soup.find_all("div",attrs={"class","cboxcomment"})[0].text[soup.find_all("div",attrs={"class","cboxcomment"})[0].text.find("定価"):].replace("\n","")    
-            params = {'status':"結果発表!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
-            params['status']
-            wb = openpyxl.load_workbook("price.xlsx")
-            ws = wb["Sheet1"]
-            for i in range(wb['Sheet1'].max_row):
-                if ws.cell(row=i+1,column=1).value==params["status"]:
-                    print("投稿済みです")
-                    break    
-                elif i==wb['Sheet1'].max_row-1:
-                    twitter.post(url_text, params = params)
-                    print("投稿しました")    
-                    ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                    wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
-            print("処理終了")
-            print("")
+    if soup_result=="":
+        params = {'status':"予想プレ値!!!\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_purene),'media_ids':[media_id]}
+        wb = openpyxl.load_workbook("price.xlsx")
+        ws = wb["Sheet1"]
+        for i in range(wb['Sheet1'].max_row):
+            if ws.cell(row=i+1,column=1).value==params["status"]:
+                print("投稿済みです")
+                break    
+            elif i==wb['Sheet1'].max_row-1:
+                twitter.post(url_text, params = params)
+                print("投稿しました")    
+                ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
+                wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
+        print("処理終了")
+        print("")
+    else:
+        soup_teika=soup.find_all("div",attrs={"class","cboxcomment"})[0].text[soup.find_all("div",attrs={"class","cboxcomment"})[0].text.find("定価"):].replace("\n","")    
+        params = {'status':"結果発表!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
+        params['status']
+        wb = openpyxl.load_workbook("price.xlsx")
+        ws = wb["Sheet1"]
+        for i in range(wb['Sheet1'].max_row):
+            if ws.cell(row=i+1,column=1).value==params["status"]:
+                print("投稿済みです")
+                break    
+            elif i==wb['Sheet1'].max_row-1:
+                twitter.post(url_text, params = params)
+                print("投稿しました")    
+                ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
+                wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
+        print("処理終了")
+        print("")
 
 
 
