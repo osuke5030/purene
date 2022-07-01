@@ -65,7 +65,6 @@ def job():
     # リクエストヘッダの指定
     headers = {"User-Agent": "hoge"}
     response = requests.get(URL,  headers=headers)
-    print(response)
     r_text=response.text
     soup = BeautifulSoup(r_text, 'html.parser')
     soup_p=soup.find_all("p",attrs={"class","has-text-align-center"})
@@ -74,13 +73,10 @@ def job():
         soup_a=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text
         if soup_a[:3]=="定価：":
             soup_purene=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("俺的","")
-            print("確認用")
         if soup_a[:2]=="結果":
             soup_result=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("予想外れ","").replace("予想的中","")
-            print("確認用")
     if os.path.exists('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx'):
         if soup_result=="":
-            print("確認用")
             params = {'status':"予想プレ値!!!\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_purene),'media_ids':[media_id]}
             wb = openpyxl.load_workbook("price.xlsx")
             ws = wb["Sheet1"]
@@ -96,7 +92,6 @@ def job():
             print("処理終了")
             print("")
         else:
-            print("確認用")
             soup_teika=soup.find_all("div",attrs={"class","cboxcomment"})[0].text[soup.find_all("div",attrs={"class","cboxcomment"})[0].text.find("定価"):].replace("\n","")    
             params = {'status':"結果発表!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
             params['status']
