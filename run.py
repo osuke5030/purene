@@ -65,6 +65,7 @@ def job():
     # リクエストヘッダの指定
     headers = {"User-Agent": "hoge"}
     response = requests.get(URL,  headers=headers)
+    print(response)
     r_text=response.text
     soup = BeautifulSoup(r_text, 'html.parser')
     soup_p=soup.find_all("p",attrs={"class","has-text-align-center"})
