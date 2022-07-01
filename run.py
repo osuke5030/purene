@@ -48,7 +48,7 @@ def job():
 
     print('レアスニのページの取得完了')
 
-    soup_article=soup.find_all("article",attrs={"class","post-list"})[1]
+    soup_article=soup.find_all("article",attrs={"class","post-list"})[0]
     soup_img=soup_article.find_all("img")[0]['src']
     soup_name=soup_article.find_all("h1",attrs={"class","entry-title"})[0].text
     soup_url=soup_article.find_all("a")[0]["href"]
