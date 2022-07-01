@@ -87,7 +87,7 @@ def job():
                     twitter.post(url_text, params = params)
                     print("投稿しました")    
                     ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                    wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
+                    wb.save('price.xlsx')
             print("処理終了")
             print("")
         else:
@@ -104,7 +104,7 @@ def job():
                     twitter.post(url_text, params = params)
                     print("投稿しました")    
                     ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                    wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
+                    wb.save('price.xlsx')
             print("処理終了")
             print("")
     except IndexError:
