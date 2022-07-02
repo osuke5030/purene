@@ -83,11 +83,12 @@ def job():
                 if ws.cell(row=i+1,column=1).value==params["status"]:
                     print("投稿済みです")
                     break    
-                elif i==wb['Sheet1'].max_row-1:
-                    twitter.post(url_text, params = params)
-                    print("投稿しました")    
+                elif i==wb['Sheet1'].max_row-1:   
                     ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
                     wb.save('price.xlsx')
+                    print("保存しました")
+                    twitter.post(url_text, params = params)
+                    print("投稿しました") 
             print("処理終了")
             print("")
         else:
@@ -100,11 +101,12 @@ def job():
                 if ws.cell(row=i+1,column=1).value==params["status"]:
                     print("投稿済みです")
                     break    
-                elif i==wb['Sheet1'].max_row-1:
-                    twitter.post(url_text, params = params)
-                    print("投稿しました")    
+                elif i==wb['Sheet1'].max_row-1:    
                     ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
                     wb.save('price.xlsx')
+                    print("保存しました")
+                    twitter.post(url_text, params = params)
+                    print("投稿しました") 
             print("処理終了")
             print("")
     except IndexError:
