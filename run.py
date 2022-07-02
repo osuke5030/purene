@@ -93,7 +93,7 @@ def job():
             print("")
         else:
             soup_teika=soup.find_all("div",attrs={"class","cboxcomment"})[0].text[soup.find_all("div",attrs={"class","cboxcomment"})[0].text.find("定価"):].replace("\n","")    
-            params = {'status':"結果発表!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
+            params = {'status':"結果発表!!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
             params['status']
             wb = openpyxl.load_workbook("/Users/kuramochiosuke/Desktop/プレ値/price.xlsx")
             ws = wb["Sheet1"]
