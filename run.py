@@ -77,7 +77,7 @@ def job():
                 soup_result=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("予想外れ","").replace("予想的中","")
         if soup_result=="":
             params = {'status':"予想プレ値!!!\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_purene),'media_ids':[media_id]}
-            wb = openpyxl.load_workbook("/Users/kuramochiosuke/Desktop/プレ値/price.xlsx")
+            wb = openpyxl.load_workbook("price.xlsx")
             ws = wb["Sheet1"]
             for i in range(wb['Sheet1'].max_row):
                 if ws.cell(row=i+1,column=1).value==params["status"]:
@@ -85,7 +85,7 @@ def job():
                     break    
                 elif i==wb['Sheet1'].max_row-1:   
                     ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                    wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
+                    wb.save('price.xlsx')
                     print("保存しました")
                     twitter.post(url_text, params = params)
                     print("投稿しました") 
@@ -95,7 +95,7 @@ def job():
             soup_teika=soup.find_all("div",attrs={"class","cboxcomment"})[0].text[soup.find_all("div",attrs={"class","cboxcomment"})[0].text.find("定価"):].replace("\n","")    
             params = {'status':"結果発表!!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
             params['status']
-            wb = openpyxl.load_workbook("/Users/kuramochiosuke/Desktop/プレ値/price.xlsx")
+            wb = openpyxl.load_workbook("price.xlsx")
             ws = wb["Sheet1"]
             for i in range(wb['Sheet1'].max_row):
                 if ws.cell(row=i+1,column=1).value==params["status"]:
@@ -103,7 +103,7 @@ def job():
                     break    
                 elif i==wb['Sheet1'].max_row-1:    
                     ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                    wb.save('/Users/kuramochiosuke/Desktop/プレ値/price.xlsx')
+                    wb.save('price.xlsx')
                     print("保存しました")
                     twitter.post(url_text, params = params)
                     print("投稿しました") 
