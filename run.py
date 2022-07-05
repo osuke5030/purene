@@ -48,67 +48,66 @@ def job():
 
 
         print('レアスニのページの取得完了')
-        for i in range(10):
-            soup_article=soup.find_all("article",attrs={"class","post-list"})[0]
-            soup_img=soup_article.find_all("img")[0]['src']
-            soup_name=soup_article.find_all("h1",attrs={"class","entry-title"})[0].text
-            soup_url=soup_article.find_all("a")[0]["href"]
-            # 画像の処理
-            response = requests.get(soup_img)
-            image = response.content
-            files = {"media" : image}
-            req_media = twitter.post(url_media, files = files)
-            media_id = json.loads(req_media.text)['media_id']
-            print('画像の取得完了')
-            print("ここから詳細ページ")
-            URL = soup_url
-            # リクエストヘッダの指定
-            headers = {"User-Agent": "hoge"}
-            response = requests.get(URL,  headers=headers)
-            r_text=response.text
-            soup = BeautifulSoup(r_text, 'html.parser')
-            soup_p=soup.find_all("p",attrs={"class","has-text-align-center"})
-            soup_result=""
-            for i in range(len(soup_p)):
-                soup_a=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text
-                if soup_a[:3]=="定価：":
-                    soup_purene=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("俺的","")
-                if soup_a[:2]=="結果":
-                    soup_result=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("予想外れ","").replace("予想的中","")
-            if soup_result=="":
-                params = {'status':"予想プレ値!!!\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_purene),'media_ids':[media_id]}
-                wb = openpyxl.load_workbook("price.xlsx")
-                ws = wb["Sheet1"]
-                for i in range(wb['Sheet1'].max_row):
-                    if ws.cell(row=i+1,column=1).value==params["status"]:
-                        print("投稿済みです")
-                        break    
-                    elif i==wb['Sheet1'].max_row-1:   
-                        ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                        wb.save('price.xlsx')
-                        print("保存しました")
-                        twitter.post(url_text, params = params)
-                        print("投稿しました") 
-                print("処理終了")
-                print("")
-            else:
-                soup_teika=soup.find_all("div",attrs={"class","cboxcomment"})[0].text[soup.find_all("div",attrs={"class","cboxcomment"})[0].text.find("定価"):].replace("\n","")    
-                params = {'status':"結果発表!!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
-                params['status']
-                wb = openpyxl.load_workbook("price.xlsx")
-                ws = wb["Sheet1"]
-                for i in range(wb['Sheet1'].max_row):
-                    if ws.cell(row=i+1,column=1).value==params["status"]:
-                        print("投稿済みです")
-                        break    
-                    elif i==wb['Sheet1'].max_row-1:    
-                        ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
-                        wb.save('price.xlsx')
-                        print("保存しました")
-                        twitter.post(url_text, params = params)
-                        print("投稿しました") 
-                print("処理終了")
-                print("")
+        soup_article=soup.find_all("article",attrs={"class","post-list"})[0]
+        soup_img=soup_article.find_all("img")[0]['src']
+        soup_name=soup_article.find_all("h1",attrs={"class","entry-title"})[0].text
+        soup_url=soup_article.find_all("a")[0]["href"]
+        # 画像の処理
+        response = requests.get(soup_img)
+        image = response.content
+        files = {"media" : image}
+        req_media = twitter.post(url_media, files = files)
+        media_id = json.loads(req_media.text)['media_id']
+        print('画像の取得完了')
+        print("ここから詳細ページ")
+        URL = soup_url
+        # リクエストヘッダの指定
+        headers = {"User-Agent": "hoge"}
+        response = requests.get(URL,  headers=headers)
+        r_text=response.text
+        soup = BeautifulSoup(r_text, 'html.parser')
+        soup_p=soup.find_all("p",attrs={"class","has-text-align-center"})
+        soup_result=""
+        for i in range(len(soup_p)):
+            soup_a=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text
+            if soup_a[:3]=="定価：":
+                soup_purene=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("俺的","")
+            if soup_a[:2]=="結果":
+                soup_result=soup.find_all("p",attrs={"class","has-text-align-center"})[i].text.replace("予想外れ","").replace("予想的中","")
+        if soup_result=="":
+            params = {'status':"予想プレ値!!!\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_purene),'media_ids':[media_id]}
+            wb = openpyxl.load_workbook("price.xlsx")
+            ws = wb["Sheet1"]
+            for i in range(wb['Sheet1'].max_row):
+                if ws.cell(row=i+1,column=1).value==params["status"]:
+                    print("投稿済みです")
+                    break    
+                elif i==wb['Sheet1'].max_row-1:   
+                    ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
+                    wb.save('price.xlsx')
+                    print("保存しました")
+                    twitter.post(url_text, params = params)
+                    print("投稿しました") 
+            print("処理終了")
+            print("")
+        else:
+            soup_teika=soup.find_all("div",attrs={"class","cboxcomment"})[0].text[soup.find_all("div",attrs={"class","cboxcomment"})[0].text.find("定価"):].replace("\n","")    
+            params = {'status':"結果発表!!!!\n\n{}\n\n{}\n\n{}\n\n※某人気スニーカーブログ参照".format(soup_name,soup_teika,soup_result),'media_ids':[media_id]}
+            params['status']
+            wb = openpyxl.load_workbook("price.xlsx")
+            ws = wb["Sheet1"]
+            for i in range(wb['Sheet1'].max_row):
+                if ws.cell(row=i+1,column=1).value==params["status"]:
+                    print("投稿済みです")
+                    break    
+                elif i==wb['Sheet1'].max_row-1:    
+                    ws.cell(row=wb['Sheet1'].max_row+1,column=1).value = params["status"]
+                    wb.save('price.xlsx')
+                    print("保存しました")
+                    twitter.post(url_text, params = params)
+                    print("投稿しました") 
+            print("処理終了")
+            print("")
     except IndexError:
         print("INDEX エラーです")       
         print("")
@@ -124,7 +123,7 @@ def job():
 
 
 def main():
-    schedule.every(10).minutes.do(job)
+    schedule.every(3).minutes.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
